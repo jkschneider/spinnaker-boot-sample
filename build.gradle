@@ -9,13 +9,23 @@ plugins {
 	id 'com.bmuschko.docker-spring-boot-application' version '4.7.0'
 }
 
-plugins {
-	id 'com.bmuschko.docker-spring-boot-application' version '4.7.0'
-}
-
 apply plugin: 'io.spring.dependency-management'
 
 group = 'io.pivotal'
+
+if(hasProperty('dockerUser') && hasProperty('dockerPassword')) {
+	docker {
+		registryCredentials {
+			username = dockerUser
+			password = dockerPassword
+			email = 'jkschneider@gmail.com'
+		}
+
+		springBootApplication {
+			tag = "$dockerUser/spinnaker-boot-sample"
+		}
+	}
+}
 
 repositories {
 	mavenCentral()
